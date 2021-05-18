@@ -8,14 +8,9 @@ pipeline {
 
 
      environment {
-        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_ACCESS_KEY_ID     = credentials('AKIAUWGMV37N5JOKMWHW')
+        AWS_SECRET_ACCESS_KEY = credentials('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')
     }
-
-   agent  any
-        options {
-                timestamps ()
-                ansiColor('xterm')
             }
     stages {
         stage('checkout') {
