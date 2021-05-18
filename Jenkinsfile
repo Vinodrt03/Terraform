@@ -57,18 +57,4 @@ pipeline {
     }
 
   }
-{code} 
 
-when {
-
-  allOf {
-
-     branch... 
-
-     expression... 
-
-  } 
-
-} 
-
-{code}
