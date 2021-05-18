@@ -1,23 +1,14 @@
-stage('Terraform Initialization') {
-when {
-expression {
-params.destroy==false
-}
-}
-steps {
-sh 'terraform init'
-sh 'terraform workspace new $TWORKSPACE'
-}
-}
-stage('Check Terraform plan') {
-when {
-expression {
-params.destroy==false
-}
-}
-steps {
-sh 'export TF_WORKSPACE=$TWORKSPACE'
-sh 'terraform plan -out myplan.txt'
-}
+node {
+env.PATH += ":/opt/terraform_0.7.13/"
+
+
+ stage ('Terraform Plan') {
+ sh 'terraform plan -no-color -out=create.tfplan'
 }
 
+// Optional wait for approval
+input 'Deploy stack?'
+
+stage ('Terraform Apply') {
+sh "terraform --version"
+}
