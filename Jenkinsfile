@@ -1,12 +1,3 @@
-pipeline {
-
-    parameters {
-        string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
-        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
-
-    }
-
-
      environment {
         AWS_ACCESS_KEY_ID     = credentials('AKIAUWGMV37N5JOKMWHW')
         AWS_SECRET_ACCESS_KEY = credentials('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')
@@ -24,14 +15,6 @@ pipeline {
                 }
             }
 
-        stage('Plan') {
-            steps {
-                sh 'pwd;cd terraform/aws-instance-first-script ; terraform init -input=false'
-                sh 'pwd;cd terraform/aws-instance-first-script ; terraform workspace new ${environment}'
-                sh 'pwd;cd terraform/aws-instance-first-script ; terraform workspace select ${environment}'
-                sh "pwd;cd terraform/aws-instance-first-script ;terraform plan -input=false -out tfplan "
-                sh 'pwd;cd terraform/aws-instance-first-script ;terraform show -no-color tfplan > tfplan.txt'
-            }
         }
         stage('Approval') {
            when {
@@ -40,14 +23,6 @@ pipeline {
                }
            }
 
-           steps {
-               script {
-                    def plan = readFile 'terraform/aws-instance-first-script/tfplan.txt'
-                    input message: "Do you want to apply the plan?",
-                    parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
-               }
-           }
-       }
 
         stage('Apply') {
             steps {
